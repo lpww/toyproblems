@@ -32,7 +32,7 @@ var mergeSort = function(array) {
   }
   //return queue[0]
   return queue[0];
-}
+};
 
 //complexity
   //the time complexity of this solution is quadratic this is due to calling the shift function inside the while loop.
@@ -41,6 +41,44 @@ var mergeSort = function(array) {
   //space complexity is linear because the queue is a copy of the array but each element in the copy is only stored once
 
 //recursive
-  //split array in half
-  //recusively sort both halves
+var mergeSort = function(array) {
+  //base case: if array length is 2, return sorted array
+  if(array.length === 2) {
+    if(array[0] < array[1]) {
+      return array;
+    }
+    if(array[1] < array[0]) {
+      return swap(array, 0, 1);
+    }
+  }
+  //base case: if array length is 1, return array
+  if(array.length === 1) {
+    return array;
+  }
+
+  //split array in half and sort both sides
+  var mid = Math.floor( (array.length - 1) / 2 );
+  var firstHalf = mergeSort( array.slice(0, mid) );
+  var secondHalf = mergeSort( array.slice(mid) );
+
+  var result = [];
+
   //merge the two sorted halves together
+  while(firstHalf.length > 0 || secondHalf.length > 0) {
+    if(firstHalf[0] > secondHalf[0] || firstHalf[0] === undefined) {
+      result.push(secondHalf.shift());
+    } else {
+      result.push(firstHalf.shift());
+    }
+  }
+
+  return result;
+};
+
+var swap = function(array, i, j) {
+  var result = array.slice();
+  var temp = result[i];
+  result[i] = result[j];
+  result[j] = temp;
+  return result;
+}
